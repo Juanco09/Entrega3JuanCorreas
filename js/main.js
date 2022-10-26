@@ -63,7 +63,7 @@ let agregarAlCarrito = (producto) => {
         variedad: producto.variedad, 
         precio: producto.precio, 
         img: producto.img,
-        encarrito: producto.encarrito})
+        encarrito: producto.encarrito + 1})
     };   
     localStorage.setItem("productosEnCarrito", JSON.stringify(carrito));
     let costoCarrito = localStorage.getItem("costoTotal");
@@ -102,7 +102,7 @@ function displayCarrito() {
             btn.addEventListener("click", () => {
                 carrito = carrito.filter(item => item.id != btn.id);
                 localStorage.setItem("productosEnCarrito", JSON.stringify(carrito));
-                localStorage.setItem("costoTotal", costoCarrito - item.precio);
+                costoTotal();
                 displayCarrito();    
                 });
             });
@@ -111,17 +111,20 @@ function displayCarrito() {
         botonVaciar.addEventListener("click", () => {
             carrito = [];
             localStorage.setItem("productosEnCarrito", JSON.stringify(carrito));
-            localStorage.setItem("costoTotal", 0);
+            costoTotal();
             displayCarrito();
             });
         });    
     }
 };
 
+//funcion para definir el costo del carrito
+function costoTotal() {
 let costoCarrito = localStorage.getItem("costoTotal");
 costoCarrito = carrito.reduce((acc, cur) => cur.precio + acc, 0);
 localStorage.setItem("costoTotal", costoCarrito);
-
+};
+    
 //evento para seleccionar productos
 for (let i=0; i < productosCarr.length; i++) {
     productosCarr[i].addEventListener ("click", () => {
